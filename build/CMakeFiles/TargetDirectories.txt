@@ -1,0 +1,3 @@
+/home/granpad/Documents/low_fi/build/CMakeFiles/thee.dir
+/home/granpad/Documents/low_fi/build/CMakeFiles/edit_cache.dir
+/home/granpad/Documents/low_fi/build/CMakeFiles/rebuild_cache.dir

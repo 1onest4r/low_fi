@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/granpad/Documents/low_fi/build",
+  "command": "/usr/bin/g++ -I/home/granpad/Documents/low_fi/dependencies -g -o CMakeFiles/thee.dir/src/main.cpp.o -c /home/granpad/Documents/low_fi/src/main.cpp",
+  "file": "/home/granpad/Documents/low_fi/src/main.cpp",
+  "output": "CMakeFiles/thee.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/granpad/Documents/low_fi/build",
+  "command": "/usr/bin/gcc -I/home/granpad/Documents/low_fi/dependencies -g -o CMakeFiles/thee.dir/src/glad.c.o -c /home/granpad/Documents/low_fi/src/glad.c",
+  "file": "/home/granpad/Documents/low_fi/src/glad.c",
+  "output": "CMakeFiles/thee.dir/src/glad.c.o"
+}
+]
