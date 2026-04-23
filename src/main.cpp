@@ -5,7 +5,6 @@ void processInput(GLFWwindow *window);
 
 int main()
 {
-
     // for initializing glfw col
     glfwInit();
 
@@ -34,23 +33,6 @@ int main()
     glViewport(0, 0, 800, 600);
     // this one is for resizing the window and its a callback col
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
-    float vertices[] = {
-        -0.5,
-        -0.5,
-        0.0,
-        0.5,
-        -0.5,
-        0.0,
-        0.0,
-        0.5,
-        0.0,
-    };
-
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     while (!glfwWindowShouldClose(window))
     {
