@@ -7,9 +7,12 @@ int main()
 {
     const char *vertexShaderSource = "#version 330 core\n"
                                      "layout (location = 0) in vec3 aPos;\n"
+                                     "layout (location = 1) in vec3 aCol;\n"
+                                     "out vec3 vertCol;\n"
                                      "void main()\n"
                                      "{\n"
                                      "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+                                     "   vertCol = aCol;\n"
                                      "}\0";
 
     const char *fragmentShaderSource = "#version 330 core\n"
@@ -21,13 +24,9 @@ int main()
                                        "}\0";
 
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f,
-
-        1.0f, 0.0f, 0.0f,
-        0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 1.0f};
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f};
 
     // for initializing glfw col
     glfwInit();
@@ -97,24 +96,17 @@ int main()
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    unsigned int VBO, VAO, VAO2;
+    unsigned int VBO, VAO;
     glGenBuffers(1, &VBO);
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    std::cout << sizeof(vertices) << std::endl;
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) / 2, vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
-
-    glGenVertexArrays(1, &VAO2);
-    glBindVertexArray(VAO2);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices) / 2, vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void *)12);
+    glEnableVertexAttribArray(1);
 
     // unbind the VAO so that accidental editing wont gonna happen
     glBindVertexArray(0);
@@ -132,7 +124,6 @@ int main()
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glBindVertexArray(VAO2);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
