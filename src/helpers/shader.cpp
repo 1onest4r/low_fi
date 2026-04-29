@@ -9,11 +9,18 @@ Shader::Shader(
                                        fragmentPath(fragmentPath)
 {
     std::cout << "Shader: " << shaderName << " created" << std::endl;
+    shaderId = linkShader();
 }
 
 GLuint Shader::makeShader(const std::string &shaderPath, GLuint shaderType)
 {
     std::ifstream file(shaderPath);
+
+    if (!file.is_open())
+    {
+        std::cout << "Error reading shader from path: " << shaderPath << std::endl;
+    }
+
     std::stringstream buffer;
     buffer << file.rdbuf();
 
@@ -53,7 +60,7 @@ GLuint Shader::linkShader()
 
     int success;
     char infoLog[512];
-    glGetProgramiv(shaderProgram, GL_COMPILE_STATUS, &success);
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if (!success)
     {
         glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);

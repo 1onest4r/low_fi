@@ -1,23 +1,23 @@
 cmake_minimum_required(VERSION 3.28.3)
-project(thee VERSION 1.0.0)
+project(low_fi VERSION 1.0.0)
 cmake_policy(SET CMP0072 NEW)
 
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 
-add_executable(thee
+add_executable(low_fi
     src/main.cpp
     src/glad.c
     src/helpers/shader.cpp
 )
 
-target_include_directories(thee PRIVATE 
+target_include_directories(low_fi PRIVATE 
     dependencies
     src
     src/helpers
     
 )
 
-target_compile_definitions(thee PRIVATE ROOT_FOLDER="${CMAKE_ROOT_DIR}")
+target_compile_definitions(low_fi PRIVATE ROOT_FOLDER="${CMAKE_SOURCE_DIR}")
 
-target_link_libraries(thee glfw OpenGL::GL)
+target_link_libraries(low_fi glfw OpenGL::GL)

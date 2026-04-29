@@ -62,14 +62,22 @@ int main()
     // this one is for resizing the window and its a callback col
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
+    float delta, lastFrame = 0.0f;
+    int timeLoc = glGetUniformLocation(triangle.id(), "time"); // is expensive to do it everyframe so here
+
     while (!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        delta = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         processInput(window);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        triangle.use();
+        triangle.use(); // make sure to use the shader program and then update the uniform value
+        glUniform1f(timeLoc, currentFrame);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 

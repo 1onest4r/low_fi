@@ -5,6 +5,6 @@ layout (location = 1) in vec3 aCol;
 out vec3 vertCol;
 
 void main() {
-    gl_position = vec4(aPos, 1.0);
+    gl_Position = vec4(aPos, 1.0);
     vertCol = aCol;
 }
