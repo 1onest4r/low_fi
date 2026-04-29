@@ -27,11 +27,6 @@ GLuint Shader::makeShader(const std::string &shaderPath, GLuint shaderType)
     std::string src = buffer.str();
     const char *shaderSrc = src.c_str();
 
-    for (int i = 0; i < src.size(); ++i)
-    {
-        std::cout << src[i];
-    }
-
     GLuint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &shaderSrc, nullptr);
     glCompileShader(shader);

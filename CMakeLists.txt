@@ -9,6 +9,7 @@ add_executable(low_fi
     src/main.cpp
     src/glad.c
     src/helpers/shader.cpp
+    src/helpers/triangle.cpp
 )
 
 target_include_directories(low_fi PRIVATE 
