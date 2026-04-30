@@ -7,6 +7,7 @@ public:
     Context();
 
     GLFWwindow *createContext(int width, int height, std::string name);
+    void initGlad();
 
 private:
     GLFWwindow *window;

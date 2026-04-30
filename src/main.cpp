@@ -4,7 +4,7 @@
 #include "input.h"
 #include "helper.h"
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
 int main()
 {
@@ -12,16 +12,6 @@ int main()
     Input input;
     Context context;
 
-    // // for initializing glfw col
-    // glfwInit();
-
-    // // these are for telling the system that use at least 3.3 and use core profile
-    // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-    // // create the window after initializing the glfw
-    // GLFWwindow *window = glfwCreateWindow(800, 600, "Thee", NULL, NULL);
     GLFWwindow *window = context.createContext(800, 600, "low_fi");
     if (window == NULL)
     {
@@ -30,13 +20,7 @@ int main()
         return -1;
     }
     glfwMakeContextCurrent(window);
-
-    // // load glad to use actual supported gl functions that are OS specifi?
-    // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    // {
-    //     std::cout << "Failed to initialize GLAD" << std::endl;
-    //     return -1;
-    // }
+    context.initGlad(); // init glad only after making context
 
     Shader triangle(
         "triangle",
@@ -45,7 +29,7 @@ int main()
 
     glViewport(0, 0, 800, 600);
     // this one is for resizing the window and its a callback col
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
     float delta, lastFrame = 0.0f;
     int timeLoc;
@@ -86,7 +70,7 @@ int main()
     return 0;
 }
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
+void framebufferSizeCallback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
 }
