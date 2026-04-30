@@ -3,6 +3,7 @@
 #include "triangle.h"
 #include "input.h"
 #include "helper.h"
+#include "camera.h"
 
 void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
@@ -11,6 +12,7 @@ int main()
     std::string shaderDir = std::string(ROOT_FOLDER) + "/src/shaders/";
     Input input;
     Context context;
+    Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
     GLFWwindow *window = context.createContext(800, 600, "low_fi");
     if (window == NULL)
@@ -30,6 +32,7 @@ int main()
     glViewport(0, 0, 800, 600);
     // this one is for resizing the window and its a callback col
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+    input.setActiveCamera(&camera);
 
     float delta, lastFrame = 0.0f;
     int timeLoc;
@@ -51,7 +54,7 @@ int main()
             delta = currentFrame - lastFrame;
             lastFrame = currentFrame;
 
-            input.processInput(window);
+            input.processInput(window, delta);
 
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
@@ -65,6 +68,7 @@ int main()
             glfwPollEvents();
         }
     }
+    input.setActiveCamera(nullptr);
     glfwTerminate();
 
     return 0;
