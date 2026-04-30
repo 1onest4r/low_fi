@@ -2,6 +2,7 @@
 #include "shader.h"
 #include "triangle.h"
 #include "input.h"
+#include "helper.h"
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
@@ -9,17 +10,19 @@ int main()
 {
     std::string shaderDir = std::string(ROOT_FOLDER) + "/src/shaders/";
     Input input;
+    Context context;
 
-    // for initializing glfw col
-    glfwInit();
+    // // for initializing glfw col
+    // glfwInit();
 
-    // these are for telling the system that use at least 3.3 and use core profile
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // // these are for telling the system that use at least 3.3 and use core profile
+    // glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    // glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    // create the window after initializing the glfw
-    GLFWwindow *window = glfwCreateWindow(800, 600, "Thee", NULL, NULL);
+    // // create the window after initializing the glfw
+    // GLFWwindow *window = glfwCreateWindow(800, 600, "Thee", NULL, NULL);
+    GLFWwindow *window = context.createContext(800, 600, "low_fi");
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -28,12 +31,12 @@ int main()
     }
     glfwMakeContextCurrent(window);
 
-    // load glad to use actual supported gl functions that are OS specifi?
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-    {
-        std::cout << "Failed to initialize GLAD" << std::endl;
-        return -1;
-    }
+    // // load glad to use actual supported gl functions that are OS specifi?
+    // if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    // {
+    //     std::cout << "Failed to initialize GLAD" << std::endl;
+    //     return -1;
+    // }
 
     Shader triangle(
         "triangle",

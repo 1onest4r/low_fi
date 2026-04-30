@@ -11,6 +11,7 @@ add_executable(low_fi
     src/helpers/shader.cpp
     src/helpers/triangle.cpp
     src/helpers/input.cpp
+    src/helpers/helper.cpp
 )
 
 target_include_directories(low_fi PRIVATE 
