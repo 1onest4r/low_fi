@@ -39,33 +39,43 @@ int main()
         shaderDir + "triangle.vert",
         shaderDir + "triangle.frag");
 
-    Triangle tri;
-
     glViewport(0, 0, 800, 600);
     // this one is for resizing the window and its a callback col
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
     float delta, lastFrame = 0.0f;
-    int timeLoc = glGetUniformLocation(triangle.id(), "time"); // is expensive to do it everyframe so here
-
-    while (!glfwWindowShouldClose(window))
+    int timeLoc;
+    if (triangle.id() == -1)
     {
-        float currentFrame = glfwGetTime();
-        delta = currentFrame - lastFrame;
-        lastFrame = currentFrame;
+        std::cout << "Failed to retrieve shader id" << std::endl;
+    }
+    else
+    {
+        timeLoc = glGetUniformLocation(triangle.id(), "time"); // is expensive to do it everyframe so here
+    }
 
-        processInput(window);
+    { // for the buffer to clean up before the context termination using another scope
+        Triangle tri;
 
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        while (!glfwWindowShouldClose(window))
+        {
+            float currentFrame = glfwGetTime();
+            delta = currentFrame - lastFrame;
+            lastFrame = currentFrame;
 
-        triangle.use(); // make sure to use the shader program and then update the uniform value
-        glUniform1f(timeLoc, currentFrame);
+            processInput(window);
 
-        tri.draw();
+            glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
 
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+            triangle.use(); // make sure to use the shader program and then update the uniform value
+            glUniform1f(timeLoc, currentFrame);
+
+            tri.draw();
+
+            glfwSwapBuffers(window);
+            glfwPollEvents();
+        }
     }
     glfwTerminate();
 
