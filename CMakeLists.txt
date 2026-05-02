@@ -8,6 +8,9 @@ find_package(glfw3 REQUIRED)
 add_executable(low_fi
     src/main.cpp
     src/glad.c
+    src/config.h
+    src/config.cpp
+    
     src/helpers/shader.cpp
     src/helpers/triangle.cpp
     src/helpers/input.cpp

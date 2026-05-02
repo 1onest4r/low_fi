@@ -10,5 +10,6 @@ public:
     void draw();
 
 private:
-    unsigned int VAO, VBO;
+    unsigned int VAO;
+    std::vector<unsigned int> VBOs;
 };
