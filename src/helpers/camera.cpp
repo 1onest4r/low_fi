@@ -40,16 +40,32 @@ void Camera::processKeyboard(CameraMovement movement, float deltaTime)
 
 void Camera::processMouseMovement(float xOffset, float yOffset)
 {
+    xOffset *= sensitivity;
+    yOffset *= sensitivity;
+
+    yaw += xOffset;
+    pitch += yOffset;
+
+    if (pitch > 89.0f)
+    {
+        pitch = 89.0f;
+    }
+    if (pitch < -89.0f)
+    {
+        pitch = -89.0f;
+    }
+
+    updateVectors();
 }
 
 void Camera::updateVectors()
 {
     glm::vec3 direction;
-    direction.x = cos(glm::radians(yaw) * cos(glm::radians(pitch)));
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch));
-    direction.z = sin(glm::radians(yaw) * cos(glm::radians(pitch)));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 
     forward = glm::normalize(direction);
     right = glm::normalize(glm::cross(forward, worldUp));
-    up = glm::normalize(glm::cross(forward, right));
+    up = glm::normalize(glm::cross(right, forward));
 }

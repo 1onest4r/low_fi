@@ -13,8 +13,13 @@ int main()
     Input input;
     Context context;
     Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    glm::mat4 model = glm::mat4(1.0f);
+    float fov = 45.0f;
+    int screenWidth = 800;
+    int screenHeight = 600;
+    glm::mat4 proj = glm::perspective(glm::radians(fov), float(screenWidth) / float(screenHeight), 0.1f, 100.0f);
 
-    GLFWwindow *window = context.createContext(800, 600, "low_fi");
+    GLFWwindow *window = context.createContext(screenWidth, screenHeight, "low_fi");
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -29,20 +34,26 @@ int main()
         shaderDir + "triangle.vert",
         shaderDir + "triangle.frag");
 
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, screenWidth, screenHeight);
     // this one is for resizing the window and its a callback col
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     input.setActiveCamera(&camera);
 
     float delta, lastFrame = 0.0f;
     int timeLoc;
+    int modelLoc;
+    int viewLoc;
+    int projLoc;
     if (triangle.id() == -1)
     {
         std::cout << "Failed to retrieve shader id" << std::endl;
     }
     else
     {
-        timeLoc = glGetUniformLocation(triangle.id(), "time"); // is expensive to do it everyframe so here
+        timeLoc = glGetUniformLocation(triangle.id(), "time");   // is expensive to do it everyframe so here
+        modelLoc = glGetUniformLocation(triangle.id(), "model"); // is expensive to do it everyframe so here
+        viewLoc = glGetUniformLocation(triangle.id(), "view");   // is expensive to do it everyframe so here
+        projLoc = glGetUniformLocation(triangle.id(), "proj");   // is expensive to do it everyframe so here
     }
 
     { // for the buffer to clean up before the context termination using another scope
@@ -60,7 +71,11 @@ int main()
             glClear(GL_COLOR_BUFFER_BIT);
 
             triangle.use(); // make sure to use the shader program and then update the uniform value
+            glm::mat4 view = camera.getViewMatrix();
             glUniform1f(timeLoc, currentFrame);
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+            glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+            glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
 
             tri.draw();
 
