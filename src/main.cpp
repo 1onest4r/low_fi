@@ -17,9 +17,8 @@ int main()
     float fov = 45.0f;
     int screenWidth = 800;
     int screenHeight = 600;
-    glm::mat4 proj = glm::perspective(glm::radians(fov), float(screenWidth) / float(screenHeight), 0.1f, 100.0f);
-
     GLFWwindow *window = context.createContext(screenWidth, screenHeight, "low_fi");
+
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -34,7 +33,7 @@ int main()
         shaderDir + "triangle.vert",
         shaderDir + "triangle.frag");
 
-    glViewport(0, 0, screenWidth, screenHeight);
+    // glViewport(0, 0, screenWidth, screenHeight);
     // this one is for resizing the window and its a callback col
     glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
     input.setActiveCamera(&camera);
@@ -65,6 +64,9 @@ int main()
             delta = currentFrame - lastFrame;
             lastFrame = currentFrame;
 
+            glm::mat4 proj = glm::perspective(glm::radians(fov), (float)screenWidth / (float)screenHeight, 0.1f, 100.0f);
+            glfwGetFramebufferSize(window, &screenWidth, &screenHeight);
+
             input.processInput(window, delta);
 
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -89,7 +91,7 @@ int main()
     return 0;
 }
 
-void framebufferSizeCallback(GLFWwindow *window, int width, int height)
+void framebufferSizeCallback(GLFWwindow *window, int screenWidth, int screenHeight)
 {
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, screenWidth, screenHeight);
 }
