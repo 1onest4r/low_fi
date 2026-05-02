@@ -11,5 +11,6 @@ public:
 
 private:
     unsigned int VAO;
+    unsigned int EBO;
     std::vector<unsigned int> VBOs;
 };
