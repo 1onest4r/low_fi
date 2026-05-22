@@ -3,16 +3,10 @@
 Triangle::Triangle()
 {
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f, // 0
-        0.5f, -0.5f, 0.0f,  // 1
-        -0.5f, 0.5f, 0.0f,  // 2
-        0.5f, 0.5f, 0.0f,   // 3
-    };
-
-    float colors[] = {
-        1.0f, 0.0f, 0.0f, // 0
-        0.0f, 1.0f, 0.0f, // 1
-        0.0f, 0.0f, 1.0f, // 2
+        -0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  0.0f, 0.0f,  // vertPos, color, texCoord
+        0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,  1.0f, 0.0f,  // vertPos, color, texCoord
+        -0.5f, 0.5f, 0.0f,   0.0f, 0.0f, 1.0f,  0.0f, 1.0f,  // vertPos, color, texCoord
+        0.5f, 0.5f, 0.0f,    1.0f, 0.0f, 0.0f,  1.0f, 1.0f,  // vertPos, color, texCoord
     };
 
     unsigned int indices[] = {
@@ -20,35 +14,29 @@ Triangle::Triangle()
         3, 1, 2
     };
 
-    float textCoords[] = {
-        0.0f, 0.0f, // left bottom
-        0.0f, 1.0f, // left top
-        1.0f, 1.0f, // right top
-        1.0f, 0.0f  // right bottom 
-    };
-
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    VBOs.resize(2);
-    glGenBuffers(2, VBOs.data());
+    glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBOs[0]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    
     glEnableVertexAttribArray(0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(1);
+    glEnableVertexAttribArray(2);
 
     // unbind the VAO so that accidental editing wont gonna happen
     glBindVertexArray(0);
+
 }
 
 void Triangle::draw()
@@ -61,6 +49,6 @@ void Triangle::draw()
 
 Triangle::~Triangle()
 {
-    glDeleteBuffers(VBOs.size(), VBOs.data());
+    glDeleteBuffers(1, &VBO);
     glDeleteVertexArrays(1, &VAO);
 }

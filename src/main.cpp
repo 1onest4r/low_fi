@@ -49,10 +49,10 @@ int main()
     }
     else
     {
-        timeLoc = glGetUniformLocation(triangle.id(), "time");   // is expensive to do it everyframe so here
-        modelLoc = glGetUniformLocation(triangle.id(), "model"); // is expensive to do it everyframe so here
-        viewLoc = glGetUniformLocation(triangle.id(), "view");   // is expensive to do it everyframe so here
-        projLoc = glGetUniformLocation(triangle.id(), "proj");   // is expensive to do it everyframe so here
+        timeLoc = glGetUniformLocation(triangle.id(), "time");  
+        modelLoc = glGetUniformLocation(triangle.id(), "model");
+        viewLoc = glGetUniformLocation(triangle.id(), "view");  
+        projLoc = glGetUniformLocation(triangle.id(), "proj");   
     }
 
     { // for the buffer to clean up before the context termination using another scope
