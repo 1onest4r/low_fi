@@ -4,6 +4,7 @@
 #include "input.h"
 #include "helper.h"
 #include "camera.h"
+#include "texture.h"
 
 void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 
@@ -13,6 +14,7 @@ int main()
     Input input;
     Context context;
     Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+    Texture2D texture("gaben.jpeg");
     glm::mat4 model = glm::mat4(1.0f);
     float fov = 45.0f;
     int screenWidth = 800;
