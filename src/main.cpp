@@ -11,10 +11,10 @@ void framebufferSizeCallback(GLFWwindow *window, int width, int height);
 int main()
 {
     std::string shaderDir = std::string(ROOT_FOLDER) + "/src/shaders/";
+    std::string textureDir = std::string(ROOT_FOLDER) + "/src/assets/gaben.jpeg"; 
     Input input;
     Context context;
     Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
-    Texture2D texture("gaben.jpeg");
     glm::mat4 model = glm::mat4(1.0f);
     float fov = 45.0f;
     int screenWidth = 800;
@@ -29,6 +29,8 @@ int main()
     }
     glfwMakeContextCurrent(window);
     context.initGlad(); // init glad only after making context
+
+    Texture2D texture(textureDir.c_str());
 
     Shader triangle(
         "triangle",
@@ -80,6 +82,9 @@ int main()
             glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
             glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
             glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+            glUniform1i(glGetUniformLocation(triangle.id(), "texture"), 0);
+
+            texture.bind();
 
             tri.draw();
 
