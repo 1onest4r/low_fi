@@ -5,6 +5,7 @@ an attempt of making basic music player
 F1 to lock mouse to look around
 WASD to move around
 
+- [ ] use dedicated gpu if exists
 - [ ] implement UBO
 - [ ] load the first 3d model
 - [ ] try animating 3d model

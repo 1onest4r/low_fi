@@ -5,8 +5,10 @@
 #include "helper.h"
 #include "camera.h"
 #include "texture.h"
+#include "gpu_preference.h"
 
 void framebufferSizeCallback(GLFWwindow *window, int width, int height);
+
 
 int main()
 {
@@ -30,6 +32,16 @@ int main()
     glfwMakeContextCurrent(window);
     context.initGlad(); // init glad only after making context
 
+    //for getting GPU info
+    GPUInfo::Init();
+    if (GPUInfo::GetType() !=
+        GPUType::Unknown)
+    {
+        std::cout << "Using Dedicated GPU\n";
+    }
+    std::cout << GPUInfo::GetVendor() << '\n';
+    std::cout << GPUInfo::GetRenderer() << '\n';
+
     Texture2D texture(textureDir.c_str());
 
     Shader triangle(
@@ -43,10 +55,12 @@ int main()
     input.setActiveCamera(&camera);
 
     float delta, lastFrame = 0.0f;
-    int timeLoc;
-    int modelLoc;
-    int viewLoc;
-    int projLoc;
+    
+    // we init to null or 0 bcz without that it would contain junk
+    int timeLoc{};
+    int modelLoc{};
+    int viewLoc{};
+    int projLoc{};
     if (triangle.id() == -1)
     {
         std::cout << "Failed to retrieve shader id" << std::endl;

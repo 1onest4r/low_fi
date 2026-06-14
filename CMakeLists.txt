@@ -21,7 +21,8 @@ add_executable(low_fi
     src/helpers/helper.cpp
     src/helpers/camera.cpp
     src/helpers/texture.cpp
-)
+    src/helpers/gpu_preference.cpp
+ "src/helpers/gpu_preference.cpp" "src/helpers/gpu_preference.h")
 
 target_include_directories(low_fi PRIVATE
     dependencies
